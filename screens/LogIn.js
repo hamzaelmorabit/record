@@ -5,14 +5,16 @@ import React, { Component } from 'react';
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Logo_Panacea from './Logo_Panacea';
+import DataBasecomponent from './DataBase/DataBaseComponent'
+
 
 
 export default class LogIn extends Component {
-   constructor() {
-      super();
+   // constructor() {
+   //    super();
 
       //hado les variables li anhtaj 
-      this.state = {
+      state   =  {
     
 
          email: '',//aykon l email dyalli
@@ -24,11 +26,21 @@ export default class LogIn extends Component {
          erreur_empty_filds: '',//ila kan aandi les champs vide kandir hena l messag "please fill all mendatory fields" 
          //o kan affchih
 
-
+        _user_email_connect_gmail : '' ,
+        _user_nameFirst_connect_gmail : '' ,
+        _user_nameLast_connect_gmail : '' ,
+         // _insert_data:null ,
+         click : null
       }
-   }
+   // }
 
-
+//  funct = async  (type) => {
+// if (type === "success"){
+//    console.log(type + 'lllllllll')
+//    this.state._insert_data = "pleian" 
+//             console.log(this.state._insert_data)
+// }
+// }
    //hena kan tconnecta b gmail 
    sign_in_with_gmail = async () => {
       try {
@@ -41,26 +53,41 @@ export default class LogIn extends Component {
          })
 
          if (result.type === "success") {
-            console.log('success')
-            console.log(result.user)
-           
-            // kan cree wahed l user f firebase dyali
-            firebase.auth().createUserWithEmailAndPassword(result.user.email, result.user.id).catch(error => {
+             this.setState({click : "true"})
+            // this.state.click = "true"
+            // this.state.email = "ppp"
+            // console.log( this.state.click )
+            // kan cree wahed l user f firebase dyali  name: result.user.name,
+            this.setState({_user_email_connect_gmail : result.user.email})
+            this.setState({_user_nameLast_connect_gmail : result.user.familyName})
+            this.setState({_user_nameFirst_connect_gmail : result.user.givenName})
+             console.log('success')
+            //  console.log(result.user.name)
+            //  console.log(result.user.familyName)
+            //   console.log(result)
+            //  console.log(result.user)
+            firebase.auth().createUserWithEmailAndPassword(result.user.email, result.user.id) .catch(error => {
                console.log("error insert")
-            })
+         })
+           
+            
 
             // hena bash n tconceta b gmail 
             //apres kan switch l jay aandi f stack li howa "stack_home"
-            firebase.auth().signInWithEmailAndPassword(result.user.email, result.user.id).catch(error => {
-               console.log(error.message)
-               console.log("error sign")
-            })
-
+            // setTimeout(()=>{
+               firebase.auth().signInWithEmailAndPassword(result.user.email, result.user.id).catch(error => {
+               // console.log(error.message)
+               console.log("error :::sign")})
+               
+            // })} , 1000)  
+            // this.props.navigation.navigate("navig_account" , {User : 'thidata'})
          } else {
             console.log("Cancelled!")
+         
+            // console.log(this.state._insert_data)
          }
       } catch (e) {
-         console.log("Error: ", e)
+         console.log("Error !!!!! : ", e)
       }
    }
 
@@ -138,18 +165,21 @@ export default class LogIn extends Component {
       //atban ila kan dak l erreur fih l messag (please fill all mendatory fields)
       const require_icon = require('../images/picturError.png');
       const icon = (this.state.erreur_empty_filds != '') ? require_icon : null;
-
+      const { _user_email_connect_gmail ,
+      _user_nameFirst_connect_gmail,
+      _user_nameLast_connect_gmail ,
+      } = this.state;
       return (
 
          <View style={styles.container}>
-
+          
             {/* dyal logo dertha f component akher bash man 3amrsh denya wakha 3emertha hh!!!  */}
             <Logo_Panacea />
 
             {/* hdi dertha aala hesab l affichage yjini dkshy bayn mzn ctt  */}
             <View style={styles.style_form}>
             </View>
-
+            {/* {(this.state.email  != "") ? (<Text>GOOD</Text>) : (null)} */}
             {/* dak text li ana afficher men baad manbshy ndir login hyt y9ed ykon aandi email 
               f la formmat ola dak l user aslan mkaynshdert joj dyal les texts car n afficher l 
               email ila kan howa li ghalt si non l password */}
@@ -228,7 +258,9 @@ export default class LogIn extends Component {
             </TouchableOpacity>
 
             {/* same of "sign in" which in above ndwiw b englai hhhhhh  */}
-            <TouchableOpacity onPress={this.sign_in_with_gmail} style={styles.buttom2}   >
+            <TouchableOpacity onPress={()=>{this.sign_in_with_gmail()
+            //  this.setState({ click : "true" });
+            }} style={styles.buttom2}   >
                <LinearGradient start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
                   locations={[0.0, 100]}
@@ -262,7 +294,19 @@ export default class LogIn extends Component {
 
                </TouchableOpacity>
             </View>
+             {/* {(this.state.click != null) ? (<DataBasecomponent
+               data={["insert", this.state.email, "password", "first_name", "last_name", "phone_number"
+                  , "age", "checked", "selectedValue"]} />) : (null)}
+                  {(this.state.click == null) ? (<DataBasecomponent
+               data={["delet", this.state.email, "password"]} />) : (null)} */}
 
+               
+             {(this.state.click  != null) ? (<DataBasecomponent
+               data={["insert", _user_email_connect_gmail , "default",_user_nameFirst_connect_gmail , _user_nameLast_connect_gmail
+                , "default"
+                  , "default", "default", "default"]} />) : (null)}
+
+           
 
          </View>
       );

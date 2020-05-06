@@ -172,3 +172,7 @@ export default createAppContainer(
       // backgroundColor="#3b5998" Ionicons from @expo/vector-icons
       // color="red"
       // onPress={this.loginWithFacebook} />  
+       // onPress={this.loginWithFacebook} />  
+        // onPress={this.loginWithFacebook} />  
+         // onPress={this.loginWithFacebook} />  
+          // onPress={this.loginWithFacebook} />  

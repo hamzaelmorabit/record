@@ -4,29 +4,93 @@ import { View } from 'react-native';
 import * as firebase from 'firebase';
 
 export default class DataBasecomponent extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+    // constructor(props) {
+    //     super(props);
+    constructor(){
+        super();
+        // this.forceUpdate();
+        // this.render();
+        // this.getDataOfUSer = this.getDataOfUSer.bind(this);
+      };
+        state = {
+            user_data_email: '',
+            user_data_password: '',
+            user_data_firstName: '',
+            user_data_lastName: '',
+            user_data_Gendre: '',
+            user_data_blood_type: '',
+            user_data_phoneNumber: '',
+            user_data_age: '',
+            user_data_id: '',
         }
-        console.log(props)
-    }
+        // console.log(props)
+    // }
 
 
 
     componentDidMount = () => {
+       
+        console.log('componentDidMount DataBase  hhhhh')
         if (this.props.data[0] == "insert") {
-
+            console.log('insert')
             this.addUserInDataBase()
             // console.log(this.props.data[1] + "!")
         } else if (this.props.data[0] == "delet") {
-
+            console.log('delet  ')
             //kan pass lih gmail bash ysepprimi lya l user selon email et password
-            this.deletUserInDataBase(this.props.data[1] ,this.props.data[2] )
+            this.deletUserInDataBase(this.props.data[1], this.props.data[2])
+        } else if (this.props.data[0] == "get_user_info") {
+            console.log("else data base ! ")
+            this.getDataOfUSer(this.props.data[0])
         }
 
     }
 
-    deletUserInDataBase = (email_delet,password_delet) => {
+    getDataOfUSer = () => {
+       
+        // window.location.reload(false);
+        // const {user_data_firstName} = this.state ; 
+        // console.log(this.props.data[1] + "this.props.data[0]")
+        // this.setState({ data: 'kkkkkkkkk' })
+        firebase.database().ref('users').on('value', data => {
+            data.forEach((item) => {
+
+                if (item.val().email == this.props.data[1] ) {
+                     console.log(item.val().id + "ppp")
+                    // console.log(item.val().email+" : Emaildeleted ******************")
+                    // var path = 'users/user_' + item.val().id
+                    // firebase.database().ref(path).remove();
+                   
+                    console.log(   item.val().password  + "this.props.data[0]")
+                    this.state.user_data_email = item.val().email
+                    this.state.user_data_password = "item.val().password "
+                    this.state.user_data_firstName = item.val().firstName  
+                    this.state.user_data_lastName = item.val().lastName  
+                    this.state.user_data_phoneNumber = item.val().phoneNumber  
+                    this.state.user_data_age = item.val().age  
+                    this.state.user_data_Gendre = item.val().gendre  
+                    this.state.user_data_blood_type = item.val().bloodType  
+                    this.state.user_data_id = item.val().id 
+                }
+            })
+        })
+        console.log(this.state.user_data_password +"^^")
+        this.props.navigation.navigate("navig_account", { 
+            email: this.state.user_data_email ,
+            password: this.state.user_data_password ,
+            firstName: this.state.user_data_firstName ,
+            lastName: this.state.user_data_lastName ,
+            phoneNumber: this.state.user_data_phoneNumber ,
+            age: this.state.user_data_age ,
+            gendre: this.state.user_data_Gendre ,
+            blood_type: this.state.user_data_blood_type ,
+            id: this.state.user_data_id
+        })
+
+
+    }
+
+    deletUserInDataBase = (email_delet, password_delet) => {
         firebase.database().ref('users').on('value', data => {
             data.forEach((item) => {
 
@@ -43,14 +107,14 @@ export default class DataBasecomponent extends Component {
 
 
     addUserInDataBase = () => {
-        var id_ = parseInt(Math.random() * 100)+ parseInt(Math.random() * 10),
+        var id_ = parseInt(Math.random() * 100) + parseInt(Math.random() * 10),
             path = "users/user_" + id_
         setTimeout(() => {
             firebase.database().ref(path).set({
                 email: this.props.data[1],
                 password: this.props.data[2],
                 firstName: this.props.data[3],
-                firstName: this.props.data[4],
+                lastName: this.props.data[4],
                 phoneNumber: this.props.data[5],
                 age: this.props.data[6],
                 gendre: this.props.data[7],
@@ -67,6 +131,8 @@ export default class DataBasecomponent extends Component {
     }
 
     render() {
+
+
         return (
             <View>
 
@@ -74,6 +140,7 @@ export default class DataBasecomponent extends Component {
         );
     }
 }
+
 
 
 

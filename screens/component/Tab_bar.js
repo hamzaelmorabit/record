@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons, Feather, Icon, Entypo, MaterialIcons , FontAwesome,EvilIcons, SimpleLineIcons } from '@expo/vector-icons'
+import { Ionicons, Feather, Icon, Entypo, MaterialIcons, FontAwesome, EvilIcons, SimpleLineIcons } from '@expo/vector-icons'
 
 // import { LinearTextGradient } from "react-native-text-gradient";
 // import { GradientText } from 'react-native-text-gradient';
@@ -20,18 +20,18 @@ export default class Tab_bar extends Component {
 
             <View
                style={{
-                  top: 68,
+                  top: 72,
                   borderBottomWidth: 1,
                   borderBottomColor: '#E5E5E5',
                   width: 400,
                }} />
-            <Text></Text>
+
             <View style={{
-               top: 60,
+               top: 80,
                justifyContent: 'flex-start',
                flexDirection: 'row'
             }}>
-               <View style={{ top : -2,width: 70, paddingLeft: 10, height: 50 }}>
+               <View style={{ top: -2, width: 70, paddingLeft: 10, height: 50 }}>
                   <TouchableOpacity >
                      <FontAwesome
                         // SimpleLineIcons
@@ -89,7 +89,7 @@ export default class Tab_bar extends Component {
                         // Ionicons
                         // Entypo
                         style={{ width: 100, height: 55 }}
-                         name="notification"
+                        name="notification"
                         // name="ios-notifications-outline"
                         color={this.props.name == 'notifications' ? '#8461c9' : '#3F3356'}
                         size={35}
@@ -115,7 +115,7 @@ export default class Tab_bar extends Component {
                </View>
             </View>
 
-            <View style={{ top: 8, flexDirection: "row" }}>
+            <View style={{ top: 24, flexDirection: "row" }}>
                <Text style={this.props.name == 'home' ? { color: "#8461c9", paddingRight: -39 } : { paddingLeft: -39 }}>
                   Home</Text>
                <Text style={this.props.name == 'searsh' ? { color: "#8461c9", paddingLeft: 31 } : { paddingLeft: 31 }}>
@@ -128,7 +128,7 @@ export default class Tab_bar extends Component {
                   Account</Text>
             </View>
 
-            <View style={{ top: 14, flexDirection: "row" }}>
+            <View style={{ top: 30, flexDirection: "row" }}>
 
                <View style={{ left: this.props.line_width }}>
                   <LinearGradient start={{ x: 0, y: 0 }}
@@ -143,11 +143,11 @@ export default class Tab_bar extends Component {
 
                   </LinearGradient>
                </View>
-
+               {/* 
                <View>
                   <Text style={true ? styles.text_style2 : null}>
                   </Text>
-               </View>
+               </View> */}
 
             </View>
          </View>
@@ -158,37 +158,16 @@ export default class Tab_bar extends Component {
 
 const styles = StyleSheet.create({
    container: {
-      // flex:1,
-       top:465,
-           justifyContent: 'flex-end',
+       flexBasis:1,// 
+    
+      top: 465,
+      // justifyContent: 'flex-end',
 
-      backgroundColor: '#fff',
+      // backgroundColor: '#fff',
       alignItems: 'center',
 
    },
-   gradient: {
 
-
-   },
-   // text_style: {
-   //    width: 10,
-   //    height: 1,
-   //    backgroundColor: "red"
-   // },
-   // text_style2: {
-   //    width: 80,
-   //    height: 5,
-   //    backgroundColor: "red",
-   //    left: 70
-   // },
-   // container: {
-   //    flex: 1,
-   //    justifyContent: 'flex-end',
-
-   //    backgroundColor: '#fff',
-   //    alignItems: 'center',
-
-   // },
    home_style: {
       width: 100, height: 55,
 

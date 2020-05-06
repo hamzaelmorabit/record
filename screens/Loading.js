@@ -17,6 +17,25 @@ export default class Loading extends Component {
          this.props.navigation.navigate(user ? "stack_home" : "stack_log_in")
       })
    }
+   // componentDidMount = async () => {
+   //    try {
+   //      // previously
+   //    //   this.loadLocalAsync()
+  
+   //      await this.props.firebase.checkUserAuth(user => {
+   //        if (user) {
+   //          // if the user has previously logged in
+   //          this.props.navigation.navigate('stack_home')
+   //        } else {
+   //          // if the user has previously signed out from the app
+   //          this.props.navigation.navigate('stack_log_in')
+   //        }
+   //      })
+   //    } catch (error) {
+   //      console.log(error)
+   //    }
+   //  }
+
    render() {
 
       return (

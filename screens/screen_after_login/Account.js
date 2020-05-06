@@ -3,50 +3,50 @@ import {
    StyleSheet, TouchableOpacity,
    View, Text
 } from 'react-native';
+import * as firebase from 'firebase'
+import { Asset } from 'expo-asset'
 import ImagePicker from 'react-native-image-crop-picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import Tab_bar from './../component/Tab_bar'
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
+import DataBaseComponent from '../DataBase/DataBaseComponent'
 // import {Icon} from 'react-native-vector-icons/Ionicons';
+import { NavigationEvents } from 'react-navigation';
 export default class Account extends Component {
 
+   state = {
+      email: ""
+   }
 
 
-   // signOutUser = () => {
+   componentDidMount = () => {
+      const { email, photoUrl } = firebase.auth().currentUser;
+      // console.log(firebase.auth().currentUser)
+      this.setState({ email });
+      // this.props.navigation.navigate("my_account")
 
-   //    ImagePicker.openPicker({
-   //       width: 300,
-   //       height: 400,
-   //       cropping: true
-   //    }).then(image => {
-   //       console.log(image);
-   //    });
-
-   // }
-   // signOutUser2 = () => {
-
-   //    ImagePicker.openCamera({
-   //       width: 300,
-   //       height: 400,
-   //       cropping: true,
-   //    }).then(image => {
-   //       console.log(image);
-   //    });
-
-   // }
-
-
-
-
+   }
 
    render() {
 
+      const { navigation } = this.props;
+      const fname = navigation.getParam('password')
 
+      console.log(fname + "fname");
       return (
          <View style={styles.container1}>
-
-            <View 
-            // style={{ top: 20 }}
+            <DataBaseComponent
+               data={["get_user_info", this.state.email]} navigation={this.props.navigation}
+            />
+            {/* <NavigationEvents
+               onWillFocus={payload => console.log('will focus', payload)}
+               onDidFocus={payload => console.log('did focus', payload)}
+               onWillBlur={payload => console.log('will blur', payload)}
+               onDidBlur={payload => console.log('did blur', payload)}
+            /> */}
+            {/* <Text>{DataBaseComponent.getDataOfUSer()}</Text> */}
+            <View
+               style={{ bottom: 40 }}
             >
                <TouchableOpacity style={styles.buttom2} >
 
@@ -56,25 +56,81 @@ export default class Account extends Component {
                      colors={['#8461c9', '#BD7AE3']}
                      style={styles.gradient}>
                      <MaterialIcons
-                        style={{ right:90, top: 10 }}
+                        style={{ right: 60, top: 10 }}
                         name="edit"
                         color='white'
                         size={30}
                      />
-                     <Text  style={{ top: -15 , color:'white' }}>Edit  profile </Text>
+                     <Text style={{ top: -15, color: 'white' }}>Edit  profile </Text>
                   </LinearGradient>
 
                </TouchableOpacity>
 
-            </View>
-            {/* <View style={{ bottom: 220 }}> <Text style={{}}> dddd </Text></View> */}
-            {/* <TouchableOpacity
-                  style={styles.container}
-                  onPress={() => { }} >
-                  <Text >ddd</Text>
-               </TouchableOpacity> */}
 
-            <View  style={{ bottom: 27 }}>
+
+
+            </View>
+            <View style={{ top: 90, }}>
+               <View style={{ top: 30, flexDirection: 'row' }}>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 39 }}>First Name    </Text>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 40 }}>{this.state.email}</Text>
+               </View>
+               <View style={{ top: 60, flexDirection: 'row' }}>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 39 }}>Last Name    </Text>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 40 }}>
+                     {fname} ddd
+                  </Text>
+               </View>
+               <View style={{ top: 90, flexDirection: 'row' }}>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 39 }}>Phone  </Text>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 77 }}>06/10/10/10/22</Text>
+               </View>
+               <View style={{ top: 120, flexDirection: 'row' }}>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 39 }}>Birthday  </Text>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 65 }}>Novomber 7, 1997 </Text>
+               </View>
+               <View style={{ top: 150, flexDirection: 'row' }}>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 39 }}>Gendre  </Text>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 71 }}>Female </Text>
+               </View>
+               <View style={{ top: 180, flexDirection: 'row' }}>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 39 }}>Blood Type </Text>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 50 }}>A+ </Text>
+               </View>
+            </View>
+
+            <View style={{ bottom: 40, paddingRight: 11, paddingLeft: 2, flexDirection: 'row' }}>
+               <TouchableOpacity style={styles.buttom22} >
+
+                  <LinearGradient start={{ x: 0, y: 0 }}
+                     end={{ x: 1, y: 1 }}
+                     locations={[0.0, 100]}
+                     colors={['#8461c9', '#BD7AE3']}
+                     style={styles.gradient2}>
+                     <MaterialCommunityIcons
+                        style={{ left: -57, right: 60, top: 10 }}
+                        name="lock-reset"
+                        color='white'
+                        size={30}
+                     />
+
+
+
+                     <Text style={{ fontSize: 13, top: -15, color: 'white' }}>        Reset Password </Text>
+                  </LinearGradient>
+
+               </TouchableOpacity>
+               <View>
+                  <TouchableOpacity style={styles.buttom23} >
+
+                     <Text style={{ fontSize: 13, color: '#BD7AE3' }}>Sign  out </Text>
+                     {/* </LinearGradient> */}
+
+                  </TouchableOpacity>
+               </View>
+            </View>
+
+            <View style={{ bottom: 195 }}>
                <Tab_bar navigation={this.props.navigation} line_width={145} name="account" />
             </View>
 
@@ -90,12 +146,24 @@ const styles = StyleSheet.create({
       alignItems: 'center',
 
    },
-  
+
    gradient: {
-      width: 230,
+      width: 170,
       height: 47,
       // height: 52,
       // flex: 1,
+      borderRadius: 3,
+      justifyContent: 'center',
+      alignItems: 'center',
+
+      // borderRadius: 5
+   },
+   gradient2: {
+      width: 150,
+      height: 47,
+      // height: 52,
+      // flex: 1,*bor
+      // borderColor:'#fff' ,
       borderRadius: 3,
       justifyContent: 'center',
       alignItems: 'center',
@@ -114,11 +182,42 @@ const styles = StyleSheet.create({
       borderRadius: 4,
       height: 45,
       padding: 20,
-      top:120,
+      top: 120,
       // top: 10,
       alignItems: "center",
       justifyContent: "center",
-   }
+   },
+   buttom22: {
+      // flexDirection:"row",
+      paddingLeft: 10,
+      borderRadius: 4,
+      height: 45,
+      // padding: 20,
+      top: 360,
+      // top: 10,
+      alignItems: "center",
+      justifyContent: "center",
+   },
+
+   buttom23: {
+      // flexDirection:"row",
+      marginLeft: 10,
+      borderRadius: 3,
+      height: 45,
+      // padding: 20,
+      top: 360,
+      // top: 10,
+      alignItems: "center",
+      justifyContent: "center",
+      borderWidth: 1,
+      borderColor: '#BD7AE3',
+
+      width: 150,
+      height: 47,
+   },
+
+
+
 });
 
 
