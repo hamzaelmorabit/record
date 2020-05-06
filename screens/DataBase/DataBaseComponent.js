@@ -6,13 +6,14 @@ import * as firebase from 'firebase';
 export default class DataBasecomponent extends Component {
     // constructor(props) {
     //     super(props);
-    constructor(){
+    constructor() {
         super();
+        global.errorReset = "falsccce";
+        global.MessagError = '';
         // this.forceUpdate();
         // this.render();
         // this.getDataOfUSer = this.getDataOfUSer.bind(this);
-      };
-        state = {
+        this.state = {
             user_data_email: '',
             user_data_password: '',
             user_data_firstName: '',
@@ -23,69 +24,88 @@ export default class DataBasecomponent extends Component {
             user_data_age: '',
             user_data_id: '',
         }
-        // console.log(props)
+    };
+    // state = {
+    //     user_data_email: '',
+    //     user_data_password: '',
+    //     user_data_firstName: '',
+    //     user_data_lastName: '',
+    //     user_data_Gendre: '',
+    //     user_data_blood_type: '',
+    //     user_data_phoneNumber: '',
+    //     user_data_age: '',
+    //     user_data_id: '',
+    // }
+    // console.log(props)
     // }
 
 
 
     componentDidMount = () => {
-       
+
         console.log('componentDidMount DataBase  hhhhh')
-        if (this.props.data[0] == "insert") {
-            console.log('insert')
-            this.addUserInDataBase()
-            // console.log(this.props.data[1] + "!")
-        } else if (this.props.data[0] == "delet") {
-            console.log('delet  ')
-            //kan pass lih gmail bash ysepprimi lya l user selon email et password
-            this.deletUserInDataBase(this.props.data[1], this.props.data[2])
-        } else if (this.props.data[0] == "get_user_info") {
-            console.log("else data base ! ")
-            this.getDataOfUSer(this.props.data[0])
+        // console.log(typeof (this.props.data) + "mmmmm")
+        if ("string" != typeof (this.props.data)) { this.getDataOfUSer(); } else {
+            if (this.props.data[0] == "insert") {
+                console.log('insert')
+                this.addUserInDataBase()
+                // console.log(this.props.data[1] + "!")
+            } else if (this.props.data[0] == "delet") {
+                console.log('delet  ')
+                //kan pass lih gmail bash ysepprimi lya l user selon email et password
+                this.deletUserInDataBase(this.props.data[1], this.props.data[2])
+            } else {
+                console.log("else data base ! " + this.props.data
+                )
+                // global.errorReset = "ooo";
+                this.getDataOfUSer()
+            }
         }
 
     }
 
     getDataOfUSer = () => {
-       
+
         // window.location.reload(false);
         // const {user_data_firstName} = this.state ; 
-        // console.log(this.props.data[1] + "this.props.data[0]")
+        //  console.log(this.props.data)
         // this.setState({ data: 'kkkkkkkkk' })
         firebase.database().ref('users').on('value', data => {
             data.forEach((item) => {
 
-                if (item.val().email == this.props.data[1] ) {
-                     console.log(item.val().id + "ppp")
+                if (item.val().email == this.props.data) {
+                    console.log(item.val().id + "ppp")
                     // console.log(item.val().email+" : Emaildeleted ******************")
                     // var path = 'users/user_' + item.val().id
                     // firebase.database().ref(path).remove();
-                   
-                    console.log(   item.val().password  + "this.props.data[0]")
+                    global.errorReset = item.val().lastName;
+                    console.log(item.val().password + "this.props.data[0]")
                     this.state.user_data_email = item.val().email
                     this.state.user_data_password = "item.val().password "
-                    this.state.user_data_firstName = item.val().firstName  
-                    this.state.user_data_lastName = item.val().lastName  
-                    this.state.user_data_phoneNumber = item.val().phoneNumber  
-                    this.state.user_data_age = item.val().age  
-                    this.state.user_data_Gendre = item.val().gendre  
-                    this.state.user_data_blood_type = item.val().bloodType  
-                    this.state.user_data_id = item.val().id 
+                    this.state.user_data_firstName = item.val().firstName
+                    this.state.user_data_lastName = item.val().lastName
+                    this.state.user_data_phoneNumber = item.val().phoneNumber
+                    this.state.user_data_age = item.val().age
+                    this.state.user_data_Gendre = item.val().gendre
+                    this.state.user_data_blood_type = item.val().bloodType
+                    this.state.user_data_id = item.val().id
                 }
             })
+
+            // console.log( this.state.user_data_password + "$$$")
+            this.props.navigation.navigate("navig_account", {
+                email: this.state.user_data_email,
+                password: this.state.user_data_password,
+                firstName: this.state.user_data_firstName,
+                lastName: this.state.user_data_lastName,
+                phoneNumber: this.state.user_data_phoneNumber,
+                age: this.state.user_data_age,
+                gendre: this.state.user_data_Gendre,
+                blood_type: this.state.user_data_blood_type,
+                id: this.state.user_data_id
+            })
         })
-        console.log(this.state.user_data_password +"^^")
-        this.props.navigation.navigate("navig_account", { 
-            email: this.state.user_data_email ,
-            password: this.state.user_data_password ,
-            firstName: this.state.user_data_firstName ,
-            lastName: this.state.user_data_lastName ,
-            phoneNumber: this.state.user_data_phoneNumber ,
-            age: this.state.user_data_age ,
-            gendre: this.state.user_data_Gendre ,
-            blood_type: this.state.user_data_blood_type ,
-            id: this.state.user_data_id
-        })
+
 
 
     }

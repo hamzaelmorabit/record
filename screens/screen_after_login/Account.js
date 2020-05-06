@@ -13,16 +13,22 @@ import DataBaseComponent from '../DataBase/DataBaseComponent'
 // import {Icon} from 'react-native-vector-icons/Ionicons';
 import { NavigationEvents } from 'react-navigation';
 export default class Account extends Component {
-
    state = {
-      email: ""
-   }
+      email: "",
+      photoUrl: "",
 
+   };
 
    componentDidMount = () => {
       const { email, photoUrl } = firebase.auth().currentUser;
       // console.log(firebase.auth().currentUser)
+      // console.log(email_e + "email_e");
+      //  this.state.email = email_e 
+      // console.log(this.state.email + "!!! this.state.email");
+
+
       this.setState({ email });
+      // this.props.navigation.navigate("my_account")
       // this.props.navigation.navigate("my_account")
 
    }
@@ -30,13 +36,25 @@ export default class Account extends Component {
    render() {
 
       const { navigation } = this.props;
-      const fname = navigation.getParam('password')
-
-      console.log(fname + "fname");
+      const fname = navigation.getParam('current_user')
+      const password = navigation.getParam('password')
+      const firstName = navigation.getParam('firstName')
+      const lastName = navigation.getParam('lastName')
+      const phoneNumber = navigation.getParam('phoneNumber')
+      const age = navigation.getParam('age')
+      const gendre = navigation.getParam('gendre')
+      const blood_type = navigation.getParam('blood_type')
+      // console.log(this.state.email + "this.state.email");
+      // console.log(this.state.email + " this.state.email");
+      // let { email } = this.state;
       return (
+
+
          <View style={styles.container1}>
+          <Text>{this.state.email}</Text> 
+          {/* <Text>{fname} FNAME</Text>  */}
             <DataBaseComponent
-               data={["get_user_info", this.state.email]} navigation={this.props.navigation}
+               data={fname} navigation={this.props.navigation}
             />
             {/* <NavigationEvents
                onWillFocus={payload => console.log('will focus', payload)}
@@ -73,17 +91,17 @@ export default class Account extends Component {
             <View style={{ top: 90, }}>
                <View style={{ top: 30, flexDirection: 'row' }}>
                   <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 39 }}>First Name    </Text>
-                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 40 }}>{this.state.email}</Text>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 40 }}>{firstName}</Text>
                </View>
                <View style={{ top: 60, flexDirection: 'row' }}>
                   <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 39 }}>Last Name    </Text>
                   <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 40 }}>
-                     {fname} ddd
+                     {lastName} 
                   </Text>
                </View>
                <View style={{ top: 90, flexDirection: 'row' }}>
                   <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 39 }}>Phone  </Text>
-                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 77 }}>06/10/10/10/22</Text>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 77 }}>{phoneNumber}</Text>
                </View>
                <View style={{ top: 120, flexDirection: 'row' }}>
                   <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 39 }}>Birthday  </Text>
@@ -91,11 +109,11 @@ export default class Account extends Component {
                </View>
                <View style={{ top: 150, flexDirection: 'row' }}>
                   <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 39 }}>Gendre  </Text>
-                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 71 }}>Female </Text>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 71 }}>{gendre} </Text>
                </View>
                <View style={{ top: 180, flexDirection: 'row' }}>
                   <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 39 }}>Blood Type </Text>
-                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 50 }}>A+ </Text>
+                  <Text style={{ fontSize: 15, color: "#3F3356", fontFamily: 'Roboto', marginLeft: 50 }}>{blood_type} </Text>
                </View>
             </View>
 

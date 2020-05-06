@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import * as firebase from 'firebase'
 import Tab_bar from './component/Tab_bar'
-import DataBasecomponent from './DataBase/DataBaseComponent'
+import DataBaseComponent from './DataBase/DataBaseComponent'
 // import {Icon} from 'react-native-vector-icons/Ionicons';
 export default class Home extends Component {
 
@@ -22,13 +22,14 @@ export default class Home extends Component {
 
    signOutUsennn = () => {
       console.log('hello')
-      this.props.navigation.navigate("my_account")
+      // this.props.navigation.navigate("my_account")
    }
 
    componentDidMount = () => {
       const { email, photoUrl } = firebase.auth().currentUser;
-      // console.log(firebase.auth().currentUser)
+      
       this.setState({ email });
+      console.log(firebase.auth().currentUser)
       // this.props.navigation.navigate("my_account")
 
    }
@@ -43,8 +44,12 @@ export default class Home extends Component {
       // LayoutAnimation.easeInEaseOut();
       return (
          <View  style={styles.container1}>
-       {/* {(true) ? (<DataBasecomponent  navigation={this.props.navigation}
-                data={["get_user_info", this.state.email]} />) : (null)} */}
+         {/* <DataBasecomponent
+               data={["get_user_info", this.state.email]} navigation={this.props.navigation}
+            /> */}
+            {/* <DataBaseComponent
+               data={["get_user_info", this.state.email]} navigation={this.props.navigation}
+            /> */}
                  <TouchableOpacity 
                       
                         onPress={() => {
@@ -54,7 +59,11 @@ export default class Home extends Component {
                         <Text>{this.state.email}</Text>
                          
                   </TouchableOpacity>
-            <Tab_bar name="home"  line_width={-140}  navigation={this.props.navigation}/>
+            <Tab_bar name="home"  current_user={this.state.email}
+             line_width={-140} 
+               navigation={this.props.navigation}
+
+             />
          </View>
       );
    }

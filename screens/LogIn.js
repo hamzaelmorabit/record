@@ -63,7 +63,7 @@ export default class LogIn extends Component {
             this.setState({_user_nameFirst_connect_gmail : result.user.givenName})
              console.log('success')
             //  console.log(result.user.name)
-            //  console.log(result.user.familyName)
+            //  console.log(user.birthday.read)
             //   console.log(result)
             //  console.log(result.user)
             firebase.auth().createUserWithEmailAndPassword(result.user.email, result.user.id) .catch(error => {
